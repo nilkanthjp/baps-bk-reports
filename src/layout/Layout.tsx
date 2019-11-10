@@ -1,101 +1,87 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
-import { useStaticQuery, graphql } from 'gatsby';
+import styled, { createGlobalStyle } from 'styled-components';
 
-import GlobalStyle from './GlobalStyle';
-import Icon from '../images/midtype-logo.png';
+import Page from './SEO';
 
-interface IQuery {
-  site: {
-    siteMetadata: ISiteMetadata;
-  };
+const GlobalStyle = createGlobalStyle`
+body {
+  margin: 0;
+  font-family: 'SF Pro Display', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
+    'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: rgb(17, 17, 17);
 }
 
-interface IProps {
-  pageTitle?: string;
-  hideLines?: boolean;
-  darkNav?: boolean;
+body * {
+  box-sizing: border-box;
 }
 
-const query = graphql`
-  query {
-    site {
-      siteMetadata {
-        title
-        description
-        author
-      }
-    }
-  }
+p,
+input,
+textarea {
+  color: white;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  font-family: 'SF Pro Display', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
+    'Arial', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+h3 {
+  font-size: 2.5rem;
+}
+
+h4 {
+  font-size: 2rem;
+}
+
+h5 {
+  font-size: 1.5rem;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a,
+button {
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  outline: none;
+  padding: 0;
+  font-size: inherit;
+  color: blue;
+}
 `;
 
-const Main = styled.main`
-  margin: 3rem;
-`;
+const Main = styled.main``;
 
-const Layout: React.FC<IProps> = props => {
-  const data: IQuery = useStaticQuery(query);
-  const { title, description, author } = data.site.siteMetadata;
-  const pageTitle = `${title}${props.pageTitle ? ` | ${props.pageTitle}` : ''}`;
-  return (
-    <React.Fragment>
-      <Helmet
-        link={[
-          {
-            rel: 'icon',
-            type: 'image/png',
-            sizes: '16x16',
-            href: `${Icon}`
-          },
-          {
-            rel: 'icon',
-            type: 'image/png',
-            sizes: '32x32',
-            href: `${Icon}`
-          },
-          { rel: 'shortcut icon', type: 'image/png', href: `${Icon}` }
-        ]}
-        title={pageTitle}
-        meta={[
-          {
-            name: `description`,
-            content: description
-          },
-          {
-            property: `og:title`,
-            content: pageTitle
-          },
-          {
-            property: `og:description`,
-            content: description
-          },
-          {
-            property: `og:type`,
-            content: `website`
-          },
-          {
-            name: `twitter:card`,
-            content: `summary`
-          },
-          {
-            name: `twitter:creator`,
-            content: author
-          },
-          {
-            name: `twitter:title`,
-            content: pageTitle
-          },
-          {
-            name: `twitter:description`,
-            content: description
-          }
-        ]}
-      />
-      <Main>{props.children}</Main>
-      <GlobalStyle />
-    </React.Fragment>
-  );
-};
+const Layout: React.FC = props => (
+  <Page title="BK Annual Report 2019">
+    <Main>{props.children}</Main>
+    <GlobalStyle />
+  </Page>
+);
 
 export default Layout;
